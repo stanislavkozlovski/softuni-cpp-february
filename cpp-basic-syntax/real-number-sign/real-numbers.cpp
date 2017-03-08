@@ -10,7 +10,7 @@ int main() {
     double a, b, c;
     cin >> a >> b >> c;
     int negativeNumbersCount = (int)(a < 0) + (int)(b < 0) + (int)(c < 0);
-    
+
     if (negativeNumbersCount % 2 == 0) {
         cout << "+";
     } else {

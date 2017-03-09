@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <stdlib.h>     /* atoi */
+#include <sstream>
+#include <iostream>
 using namespace std;
 
 int zAlgorithm(string pattern, string target) {
@@ -52,20 +53,13 @@ int* parseNumbers(const string& str, int& resultLength) {
     bool lastWasSpace = true;
     int numIndex = 0;
     // parse  the numbers from the string
-    for (int i = 0; i < str.size(); i++) {
-        string currentNum(1 ,str[i]);
-        for (int j = i+1; j < str.size(); j++) {
-            if (str[j] != ' ') {
-                currentNum.push_back(str[j]);
-            } else {
-                // we're at a whitespace, make sure the main for loop jumps to the index after the whitespace
-                i = j;
-                break;
-            }
-        }
-        numbers[numIndex] = atoi(currentNum.c_str());
+    istringstream inputStream(str);
+    int currentNum;
+    while (inputStream >> currentNum) {
+        numbers[numIndex] = currentNum;
         numIndex++;
     }
+    
     p = numbers;
     return p;
 }

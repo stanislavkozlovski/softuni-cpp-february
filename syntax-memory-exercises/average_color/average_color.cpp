@@ -73,6 +73,8 @@ int main() {
     long unsigned average_red = (red_1 + red_2) / 2;
     long unsigned average_green = (green_1 + green_2) / 2;
     long unsigned average_blue = (blue_1 + blue_2) / 2;
+    delete[] rgb_1;
+    delete[] rgb_2;
     string decimalValues = to_string(average_red) + to_string(average_green) + to_string(average_blue);;
     // cout << hex << average_red << endl;;
     cout << buildHexRepr(average_red, average_green, average_blue) << endl;

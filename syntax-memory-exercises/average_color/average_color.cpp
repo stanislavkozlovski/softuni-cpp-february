@@ -51,10 +51,6 @@ string buildHexRepr(long unsigned red, long unsigned green, long unsigned blue) 
     appendZero(redHexValue);
     appendZero(greenHexValue);
     appendZero(blueHexValue);
-    // if (redHexValue.size() == 1) {
-    //     redHexValue += '0';
-    // }
-    // if (greenHexValue.size())
     return redHexValue + greenHexValue + blueHexValue;
 }
 
@@ -77,6 +73,6 @@ int main() {
     delete[] rgb_2;
     string decimalValues = to_string(average_red) + to_string(average_green) + to_string(average_blue);;
     // cout << hex << average_red << endl;;
-    cout << buildHexRepr(average_red, average_green, average_blue) << endl;
+    cout << "#" << buildHexRepr(average_red, average_green, average_blue) << endl;
     return 0;
 }

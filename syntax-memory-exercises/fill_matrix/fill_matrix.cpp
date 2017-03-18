@@ -18,32 +18,26 @@ int main() {
     return 0;
 }
 
-void fillMatrix(char** matrix, int startRow, int startCol, char newSymbol, int rowCount, int colCount) {
-    std::deque<std::tuple<int, int>> stack;
-    char originalElement = matrix[startRow][startCol];
-    stack.push_back(std::make_tuple(startRow, startCol));
-    while (!stack.empty()) {
-        int currentRow, currentCol;
-        std::tie(currentRow, currentCol) = stack.front();
-        stack.pop_front();
-        
-        matrix[currentRow][currentCol] = newSymbol;
-        if ((currentRow + 1 < rowCount) && matrix[currentRow+1][currentCol] == originalElement) {
-            // go up
-            stack.push_back(std::make_tuple(currentRow+1, currentCol));
-        }
-        if ((currentRow - 1 >= 0) && matrix[currentRow-1][currentCol] == originalElement) {
-            // go down
-            stack.push_back(std::make_tuple(currentRow-1, currentCol));
-        }
-        if ((currentCol + 1 < colCount) && matrix[currentRow][currentCol + 1] == originalElement) {
-            // go right
-            stack.push_back(std::make_tuple(currentRow, currentCol + 1));
-        }
-        if ((currentCol - 1 >= 0) && matrix[currentRow][currentCol - 1] == originalElement) {
-            // go left
-            stack.push_back(std::make_tuple(currentRow, currentCol - 1));
-        }
+void fillMatrix(char** matrix, int currentRow, int currentCol, char newSymbol, int rowCount, int colCount) {
+    char originalElement = matrix[currentRow][currentCol];
+    
+    matrix[currentRow][currentCol] = newSymbol;
+
+    if ((currentRow + 1 < rowCount) && matrix[currentRow+1][currentCol] == originalElement) {
+        // go up
+        fillMatrix(matrix, currentRow+1, currentCol, newSymbol, rowCount, colCount);
+    }
+    if ((currentRow - 1 >= 0) && matrix[currentRow-1][currentCol] == originalElement) {
+        // go down
+        fillMatrix(matrix, currentRow-1, currentCol, newSymbol, rowCount, colCount);
+    }
+    if ((currentCol + 1 < colCount) && matrix[currentRow][currentCol + 1] == originalElement) {
+        // go right
+        fillMatrix(matrix, currentRow, currentCol + 1, newSymbol, rowCount, colCount);
+    }
+    if ((currentCol - 1 >= 0) && matrix[currentRow][currentCol - 1] == originalElement) {
+        // go left
+        fillMatrix(matrix, currentRow, currentCol - 1, newSymbol, rowCount, colCount);
     }
 }
 

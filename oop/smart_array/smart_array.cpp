@@ -3,48 +3,53 @@
 
 class SmartArray {
     int capacity;
-    int size;
     int* elements;
 
 
         void incrCapacity() {
             /* Double the capacity */
-            this->capacity *= this->capacity;
+            this->capacity *= 2;
         }
         void dcrCapacity() {
             /* Decrease the capacity twice */
-            this->capacity /= this->capacity;
-            // TODO: Check if we've deleted items and create new array
+            this->capacity /= 2;
         }
-        void createNewArr() {
+        void dcrCapacity(int newCap) {
+            /* Decrease the capacity by the given amount */
+            this->capacity = newCap;
+        }
+        void createNewArr(int newLength) {
             /* Creates a new array in order to **increase the size**,
                deletes the old array and attaches the new array to this->elements */
-            this->incrCapacity();
-            
             int* newElements = new int[this->capacity];
 
-            for (int i = 0; i < this->size; i++) {
+            for (int i = 0; i < this->size && i < newLength; i++) {
                 newElements[i] = this->elements[i];
             }
-
+            if (newLength < this->size) {
+                // We've remove elements'
+                this->size = newLength;
+            }
             delete[] this->elements;
             this->elements = newElements;
         }
     public:
-        SmartArray() {
-            this->capacity = 32;
-            this->size = 0;
-            this->elements = new int[this->capacity];
-        }
-        SmartArray(int capacity) {
-            this->capacity = capacity;
-            this->size = 0;
-            this->elements = new int[this->capacity];
-        }
+        int size;
+    
+        SmartArray() :
+            capacity(32),
+            size(0),
+            elements(new int[this->capacity]) { }
+
+        SmartArray(int capacity) :
+            capacity(capacity), 
+            size(0),
+            elements(new int[this->capacity]) { }
 
         void Append(int el) {
-            if (this->size > this->capacity) {
-                this->createNewArr();                
+            if (this->size + 1 > this->capacity) {
+                this->incrCapacity();
+                this->createNewArr(this->capacity);
             }
             this->size++;
             
@@ -52,7 +57,20 @@ class SmartArray {
             this->elements[this->size - 1] = el;
         }
 
-        int operator[](const int idx) {
+        void Cut() {
+            /* Halves the array, losing the right part of values */
+            this->dcrCapacity();
+            std::cout << "Removing " << this->capacity;
+            
+            this->createNewArr(this->capacity);
+        }
+
+        void CutTo(int newLength) {
+            this->dcrCapacity(newLength);
+            this->createNewArr(this->capacity);
+        }
+
+        int& operator[](const int idx) const {
             if (idx >= this->size || idx < 0) {
                 throw std::invalid_argument( "Invalid index!" );
             }
@@ -63,8 +81,27 @@ class SmartArray {
 
 int main() {
     SmartArray smArr;
+    std::cout << smArr.size;
     for (size_t i = 0; i < 34; i++) {
-        smArr.Append(3);
+        if (i >= 17) {
+            smArr.Append(4);
+        } else {
+            smArr.Append(3);
+        }
     }
+    for (size_t i = 0; i < smArr.size; i++) {
+        std::cout << smArr[i] << std::endl;
+    }
+
+    smArr.CutTo(smArr.size/2);
+    std::cout << "REMOVED HALF" << std::endl;
+
+    for (size_t i = 0; i < smArr.size; i++) {
+        std::cout << smArr[i] << std::endl;
+    }
+
+    std::cout << smArr[1] << std::endl;
+    smArr[1] = 233;
+    std::cout << smArr[1] << std::endl;
     return 0;
 }

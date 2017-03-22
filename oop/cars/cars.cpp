@@ -1,12 +1,19 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
 
 using std::vector;
 using std::string;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::ofstream;
+using std::stringstream;
+using std::ifstream;
+using std::unordered_map;
 
 class Car;
 
@@ -21,7 +28,6 @@ class Person {
     public:
         void changeName();
         void changeAge();
-        int getAge();
 
         Person(const int id, const int age, const string& name) :
             id(id),
@@ -39,6 +45,9 @@ class Person {
         }
         string getName() const {
             return this->name;
+        }
+        int getId() const {
+            return this->id;
         }
         void addCar(Car* car) {
             this->cars.push_back(car);
@@ -81,6 +90,12 @@ class Car {
         }
         Person getOwner() const {
             return *this->owner;
+        }
+        string getRegistrationNumber() const {
+            return this->registrationNumber;
+        }
+        int getHorsepower() const {
+            return this->horsepower;
         }
 
         void changeOwner(Person* owner) {
@@ -147,10 +162,73 @@ Car* createCar(vector<Person*> people) {
     return new Car(manufacturer, model, horsepower, owner, registrationNumber);
 }
 
+void writePeopleAndCars(vector<Person*> people) {
+    vector<Car*> cars;
+    ofstream file;
+    file.open("people_and_cars.txt");
 
-int main() {
-    int choice;
+    for (int i = 0; i < people.size(); i++) {
+        Person* p = people[i];
+        file << p->getId() << " " << p->getAge() << " " << p->getName() << "\n";
+        vector<Car*> personCars = p->getCars();
+
+        for (int j = 0; j < personCars.size(); j++) {
+            cars.push_back(personCars[j]);
+        }
+    }
+    file << "CAR SEPARATOR" << "\n";
+    for (int i = 0; i < cars.size(); i++) {
+        Car* c = cars[i];
+        file << c->getOwner().getId() << " " << c->getManufacturer() << " " << c->getModel() << " " << c->getHorsepower() << " " << c->getRegistrationNumber() << "\n";
+    }
+    file.close();
+}
+
+vector<Person*> readPeopleAndCars() {
     vector<Person*> people;
+    ifstream file;
+    file.open("people_and_cars.txt");
+    string line;
+    bool readingPeople = true;
+    unordered_map<int, Person*> peopleByIds;
+    while(getline(file, line)) {
+        if (line == "CAR SEPARATOR") {
+            readingPeople = false;
+            continue;
+        }
+        if (readingPeople) {
+            stringstream ss;
+            int personId, age;
+            string name;
+            ss << line;
+            ss >> personId >> age >> name;
+
+            Person* tempPerson = new Person(personId, age, name);
+            people.push_back(tempPerson);
+            peopleByIds.insert(std::make_pair(personId, tempPerson));
+        } else {
+            stringstream ss;
+            string manufacturer, model, registrationNumber;
+            int horsepower, ownerId;
+            Person* owner;
+            ss << line;
+            ss >> ownerId >> manufacturer >> model >> horsepower >> registrationNumber;
+            unordered_map<int, Person*>::const_iterator findResult = peopleByIds.find(ownerId);
+            owner = findResult->second;
+            Car* tempCar = new Car(manufacturer, model, horsepower, owner, registrationNumber);
+            owner->addCar(tempCar);
+        }
+    }
+
+    return people;
+}
+int main() {
+    /*
+     Create cars and people which then get saved to a text file and read on each further program start so that the data is saved.
+     Duplicate IDs will cause the program to behave unexpectedly.
+     */
+    int choice;
+    vector<Person*> people = readPeopleAndCars();
     while (true) {
         cout << "Do you want to: " << endl << "1.Create a car" << endl << "2.Create a person" << endl << "3.Change the owner of a car" << endl;
         cin >> choice;
@@ -197,8 +275,10 @@ int main() {
             cout << "Moved " << *carToMove << " from " << *person << " to " << *receiver << endl;
         } else {
             cout << "Invalid choice!" << endl;
+            break;
         }
         cout << endl;
     }
+    writePeopleAndCars(people);
     return 0;
 }

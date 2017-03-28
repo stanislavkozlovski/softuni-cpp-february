@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <stdexcept>
 using namespace std;
@@ -21,3 +22,4 @@ class SmartArray {
         void CutTo(int newLength);
         int& operator[](const int idx) const;
 };
+

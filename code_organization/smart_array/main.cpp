@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
-#include "smart_array.cpp"
-#include "smart_matrix.cpp"
+#include "smart_array.h"
+#include "smart_matrix.h"
 
 int main() {
     /* Test the Smart Array */

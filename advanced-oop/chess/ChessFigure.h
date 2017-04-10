@@ -15,14 +15,20 @@ protected:
     int row, col;
     std::vector<std::tuple<int,int>> directions;
     bool canMoveByMultipleCells;  // indicates if he can move one cell at a time or not
+    std::string repr;
 public:
+    friend std::ostream& operator<<(std::ostream& os, const ChessFigure& dt);
+    bool operator ==(const ChessFigure& c);
     Color color;
     ChessFigure();
 //    ~ChessFigure();
 //    ChessFigure(const ChessFigure& cf);
     ChessFigure(int r, int c, Color col);
-    std::vector<std::tuple<int, int>> getAvailableMoves(ChessFigure** otherFigures);
-    bool move(std::tuple<int, int> newPosition);
+    std::vector<std::tuple<int, int>> getAvailableMoves(ChessFigure*** otherFigures);
+    bool canMoveTo(std::tuple<int, int> newPosition, ChessFigure*** board);
+    bool move(std::tuple<int, int> newPosition, ChessFigure*** board);
+    int getRow();
+    int getCol();
 };
 
 

@@ -154,6 +154,8 @@ void ChessEngine::removePiece(int row, int col) {
             }
         }
     }
+
+    delete pieceToRemove;
 }
 
 void ChessEngine::removePieceFromVector(ChessFigure* cf, vector<ChessFigure*> &pieces) {
@@ -181,3 +183,4 @@ ChessEngine::ChessEngine() {
 bool ChessEngine::hasWon(Color c) {
     return c == Color::WHITE ? this->blackKingIsDead : this->whiteKingIsDead;
 }
+

@@ -16,9 +16,6 @@ ChessFigure::ChessFigure() {
     this->color = Color::NONE;
 }
 
-//ChessFigure::ChessFigure(const ChessFigure& cf) {
-//
-//}
 bool ChessFigure::operator==(const ChessFigure &c) {
     if (this->row == c.row && this->col == c.col) {
         if (this->color != c.color) {
@@ -63,8 +60,6 @@ std::vector<std::tuple<int, int>> ChessFigure::getAvailableMoves(ChessFigure*** 
             int newRow = this->row + std::get<0>(dir);
             int newCol = this->col + std::get<1>(dir);
             if (inBounds(newRow) && inBounds(newCol) && otherFigures[newRow][newCol]->color != this->color) {
-                std::cout << "COLORS: " << (otherFigures[newRow][newCol]->color != this->color) << std::endl;
-
                 avMoves.push_back(std::make_tuple(newRow, newCol));
             }
         }

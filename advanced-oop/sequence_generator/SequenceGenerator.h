@@ -25,6 +25,12 @@ public:
     virtual void GenerateSequence() = 0;
     string getName(int index);
     double getValue(int index);
+
+    int getLength();
+
+    int getEnd();
+
+    int getStart();
 };
 
 

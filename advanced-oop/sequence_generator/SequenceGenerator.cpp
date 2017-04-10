@@ -77,3 +77,15 @@ SequenceGenerator &SequenceGenerator::operator=(const SequenceGenerator &sg) {
     }
 }
 
+int SequenceGenerator::getLength() {
+    return this->length;
+}
+
+int SequenceGenerator::getStart() {
+    return this->startIdx;
+}
+
+int SequenceGenerator::getEnd() {
+    return this->endIdx;
+}
+

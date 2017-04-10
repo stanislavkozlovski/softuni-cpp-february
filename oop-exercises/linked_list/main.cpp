@@ -27,5 +27,22 @@ int main() {
     std::cout << ll << "Size" << ll.size() << std::endl;
 
 
+
+    // testing the iterator
+    ll.add(2);
+    ll.add(3);
+    ll.add(2);
+    ll.add(10);
+    ll.add(10);
+    ll.add(10);
+    for (LinkedList::Iterator i = ll.begin(); i != ll.end(); ++i) {
+        *i = 1;
+        std::cout << *i << " ";
+    }
+    std::cout << std::endl;
+
+    for (int& number : ll) {
+        std::cout << number << " ";
+    }
     return 0;
 }

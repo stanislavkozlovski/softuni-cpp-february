@@ -83,3 +83,11 @@ std::ostream& operator<< (std::ostream &out, LinkedList const &t) {
 size_t LinkedList::size() {
     return this->len;
 }
+
+LinkedList::Iterator LinkedList::begin() {
+    return LinkedList::Iterator(this->root);
+}
+
+LinkedList::Iterator LinkedList::end() {
+    return LinkedList::Iterator(NULL);
+}

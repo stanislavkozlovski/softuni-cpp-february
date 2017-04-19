@@ -1,0 +1,8 @@
+tank tank tank
+"tank" "ta" 100
+"tank" "ta" 500
+"tank" "ta" 600
+"tank" "ta" 700
+"tank" "ta" 1200
+"tank" "ta" 1600
+"tank" "ta" 1800

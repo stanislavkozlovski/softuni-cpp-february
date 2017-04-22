@@ -64,6 +64,8 @@ string SequenceGenerator::getName(int index) {
 }
 
 SequenceGenerator &SequenceGenerator::operator=(const SequenceGenerator &sg) {
+    delete this->numbers;
+    
     this->startIdx = sg.startIdx;
     this->endIdx = sg.endIdx;
     this->length = sg.length;

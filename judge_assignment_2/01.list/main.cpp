@@ -30,9 +30,7 @@ List mergeSortedLists(List a, List b) {
 
 int main() {
     using namespace std;
-
     List sorted;
-
     string listLine;
     getline(cin, listLine);
 

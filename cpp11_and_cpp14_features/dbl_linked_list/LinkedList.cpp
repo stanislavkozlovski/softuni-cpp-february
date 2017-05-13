@@ -8,14 +8,14 @@
 
 template <typename DataType>
 LinkedList<DataType>::LinkedList(DataType value) {
-    this->root = new Node<DataType>(value);
+    this->root = std::make_shared<Node<DataType>>(value);
     this->last = NULL;
     this->len = 1;
 }
 
 template <class DataType>
 void LinkedList<DataType>::add(DataType value) {
-    Node<DataType>* newLast = new Node<DataType>(value);
+    NodePtr<DataType> newLast = std::make_shared<Node<DataType>>(value);
     this->len++;
     if (this->last == NULL) {
         newLast->prev = this->root;
@@ -58,7 +58,7 @@ void LinkedList<DataType>::remove(DataType value) {
 }
 
 template <class DataType>
-Node<DataType>* LinkedList<DataType>::find(DataType value) {
+NodePtr<DataType> LinkedList<DataType>::find(DataType value) {
     /* Iterate through the nodes, trying to find the right node */
     Node<DataType>* el = this->root;
 
@@ -109,7 +109,7 @@ LinkedList<DataType>::LinkedList(std::initializer_list<DataType> elements) {
     this->len = 0;
     for (auto el : elements) {
         if (this->len == 0) {
-            this->root = new Node<DataType>(el);
+            this->root = std::make_shared<Node<DataType>>(el);
             this->len = 1;
         } else {
             this->add(el);
@@ -119,7 +119,6 @@ LinkedList<DataType>::LinkedList(std::initializer_list<DataType> elements) {
 
 template <class DataType>
 LinkedList<DataType>::LinkedList(const LinkedList &lt){
-    // TODO: Delete all shit here
     this->clear();
 
     Node<DataType>* el = lt.root;
@@ -138,8 +137,6 @@ LinkedList<DataType>::LinkedList(LinkedList&& lt) {
     this->len = lt.len;
     this->root = lt.root;
     this->last = lt.last;
-    lt.root = nullptr;
-    lt.last = nullptr;
 }
 
 
@@ -147,9 +144,9 @@ template <class DataType>
 LinkedList<DataType>& LinkedList<DataType>::operator= (const LinkedList<DataType>& lt) {
     this->clear();
 
-    Node<DataType>* el = lt.root;
+    NodePtr<DataType> el = lt.root;
     this->len = 1;
-    this->root = new Node<DataType>(el->value);
+    this->root = std::make_shared<Node<DataType>>(el->value);
     while(el != NULL) {
         el = el->next;
         if (el != NULL) {
@@ -171,24 +168,11 @@ template <class DataType>
 void LinkedList<DataType>::clear() {
     /*
      * Clears everything from the linked list
+     * shared_ptr should clean themselves up
      */
-    if (this->len == 1) {
-        delete this->root;
-        this->root = NULL;
-    }
     this->len = 0;
-    Node<DataType>* el = this->root;
     this->root = NULL;
-    while(el != NULL) {
-        el = el->next;
-        if (el != NULL) {
-            delete el->prev;
-        }
-    }
-
-    delete this->last;
     this->last = NULL;
-
 }
 
 template <class DataType>

@@ -6,8 +6,8 @@
 #include "Node.h"
 template <class NodeType>
 Node<NodeType>::Node(NodeType value) : value(value) {
-    this->next = NULL;
-    this->prev = NULL;
+    this->next = std::shared_ptr<Node>();
+    this->prev = std::weak_ptr<Node>();
 }
 
 template <class NodeType>

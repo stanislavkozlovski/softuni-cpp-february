@@ -4,21 +4,28 @@
 
 #ifndef LINKED_LIST_LINKEDLIST_H
 #define LINKED_LIST_LINKEDLIST_H
+#include <memory>
 
+//std::shared_ptr
+
+//typedef std::shared_ptr< Node<DataType> > NodePtr; // nice short alias
 
 #include <ostream>
 #include "Node.h"
 
 template<class DataType>
+using NodePtr =std::shared_ptr< Node<DataType> >;
+
+template<class DataType>
 class LinkedList {
-    Node<DataType>* root;
-    Node<DataType>* last;
+    NodePtr<DataType> root;
+    NodePtr<DataType> last;
     size_t len;
 public:
     class Iterator {
-        Node<DataType>* current;
+        NodePtr<DataType> current;
     public:
-        Iterator(Node<DataType>* start) : current(start) { }
+        Iterator(NodePtr<DataType> start) : current(start) { }
         Iterator& operator++() {
             this->current = this->current->next;
             return *this;
@@ -36,7 +43,7 @@ public:
     };
     LinkedList(std::initializer_list<DataType> initList);
     LinkedList(DataType value);
-    
+
     // Rule of five
     ~LinkedList();
     LinkedList(const LinkedList& lt);
@@ -48,7 +55,7 @@ public:
     void clear();
     void add(DataType value);
     void remove(DataType value);
-    Node<DataType>* find(DataType value);
+    NodePtr<DataType> find(DataType value);
     bool contains(DataType value);
     size_t size();
     Iterator begin();

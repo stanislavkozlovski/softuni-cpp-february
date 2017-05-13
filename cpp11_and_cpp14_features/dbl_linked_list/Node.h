@@ -4,8 +4,8 @@
 template<class NodeType>
 class Node {
 public:
-    Node* next;
-    Node* prev;
+    std::shared_ptr<Node> next;
+    std::weak_ptr<Node> prev;
     NodeType value;
     Node(NodeType value);
 

@@ -121,9 +121,9 @@ template <class DataType>
 LinkedList<DataType>::LinkedList(const LinkedList &lt){
     this->clear();
 
-    Node<DataType>* el = lt.root;
+    NodePtr<DataType> el = lt.root;
     this->len = 1;
-    this->root = new Node<DataType>(el->value);
+    this->root = std::make_shared<NodePtr<DataType> >(el->value);
     while(el != NULL) {
         el = el->next;
         if (el != NULL) {

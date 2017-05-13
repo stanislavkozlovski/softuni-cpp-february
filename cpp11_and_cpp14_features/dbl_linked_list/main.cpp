@@ -1,5 +1,6 @@
 #include <iostream>
 #include "LinkedList.cpp"
+#include <unordered_set>
 
 LinkedList<std::string> testMoveAssignment() {
     return LinkedList<std::string> {"babababa", "rarara"};
@@ -10,6 +11,9 @@ int main() {
     while (1) {
         LinkedList<std::string> fam = {"father", "mother", "sister"};
         LinkedList<std::string> tank("tk");
+        std::unordered_set<LinkedList<std::string>> llSet;
+        llSet.insert(tank);  // some weird shared_ptr error, no idea what's causing it
+        std::cout << "Set has " << llSet.size() << " elements" << std::endl;
         tank = fam;
         tank = testMoveAssignment();
     }

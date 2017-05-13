@@ -34,7 +34,18 @@ public:
             return current->value;
         }
     };
+    LinkedList(std::initializer_list<DataType> initList);
     LinkedList(DataType value);
+    
+    // Rule of five
+    ~LinkedList();
+    LinkedList(const LinkedList& lt);
+    LinkedList(LinkedList&& lt);
+    LinkedList& operator= (const LinkedList& lt);
+    LinkedList& operator= (LinkedList&& lt);
+    // Rule of five ^
+
+    void clear();
     void add(DataType value);
     void remove(DataType value);
     Node<DataType>* find(DataType value);

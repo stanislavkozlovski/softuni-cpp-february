@@ -102,3 +102,97 @@ template <class DataType>
 typename LinkedList<DataType>::Iterator LinkedList<DataType>::end() {
     return LinkedList::Iterator(NULL);
 }
+
+template <class DataType>
+LinkedList<DataType>::LinkedList(std::initializer_list<DataType> elements) {
+    this->last = NULL;
+    this->len = 0;
+    for (auto el : elements) {
+        if (this->len == 0) {
+            this->root = new Node<DataType>(el);
+            this->len = 1;
+        } else {
+            this->add(el);
+        }
+    }
+}
+
+template <class DataType>
+LinkedList<DataType>::LinkedList(const LinkedList &lt){
+    // TODO: Delete all shit here
+    this->clear();
+
+    Node<DataType>* el = lt.root;
+    this->len = 1;
+    this->root = new Node<DataType>(el->value);
+    while(el != NULL) {
+        el = el->next;
+        if (el != NULL) {
+            this->add(el->value);
+        }
+    }
+}
+
+template <class DataType>
+LinkedList<DataType>::LinkedList(LinkedList&& lt) {
+    this->len = lt.len;
+    this->root = lt.root;
+    this->last = lt.last;
+    lt.root = nullptr;
+    lt.last = nullptr;
+}
+
+
+template <class DataType>
+LinkedList<DataType>& LinkedList<DataType>::operator= (const LinkedList<DataType>& lt) {
+    this->clear();
+
+    Node<DataType>* el = lt.root;
+    this->len = 1;
+    this->root = new Node<DataType>(el->value);
+    while(el != NULL) {
+        el = el->next;
+        if (el != NULL) {
+            this->add(el->value);
+        }
+    }
+}
+
+template <class DataType>
+LinkedList<DataType>& LinkedList<DataType>::operator= (LinkedList<DataType>&& lt) {
+    this->len = lt.len;
+    this->root = lt.root;
+    this->last = lt.last;
+    lt.root = nullptr;
+    lt.last = nullptr;
+}
+
+template <class DataType>
+void LinkedList<DataType>::clear() {
+    /*
+     * Clears everything from the linked list
+     */
+    if (this->len == 1) {
+        delete this->root;
+        this->root = NULL;
+    }
+    this->len = 0;
+    Node<DataType>* el = this->root;
+    this->root = NULL;
+    while(el != NULL) {
+        el = el->next;
+        if (el != NULL) {
+            delete el->prev;
+        }
+    }
+
+    delete this->last;
+    this->last = NULL;
+
+}
+
+template <class DataType>
+LinkedList<DataType>::~LinkedList() {
+//    std::cout << "Called destructor of LL with start el " << this->root->value << std::endl;
+    this->clear();
+}
